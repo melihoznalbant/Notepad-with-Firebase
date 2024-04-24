@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "795341688381",
+    "project_id": "flutteruiblocapi",
+    "storage_bucket": "flutteruiblocapi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795341688381:android:bb42ebdc600d12416fa454",
+        "android_client_info": {
+          "package_name": "com.example.flutter_ui_api_bloc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVOoc7Az43xKM89l9TGPx5eJDsaGvH-1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

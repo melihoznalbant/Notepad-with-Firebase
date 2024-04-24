@@ -8,26 +8,24 @@ part 'users_state.dart';
 
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   UsersBloc() : super(const UsersInitial()) {
-    on<UserSignIn>(
+    on<UserSignUp>(
       (event, emit) async {
         emit(const UserLoading());
 
-        if (event.userPassword != event.confirmUserPassword) {
-          emit(const UserError());
-        } else {
           try {
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
               email: event.userMail!.text,
               password: event.userPassword!.text,
             );
             emit(UserSignedIn(
-                userMail: event.userMail,
-                userPassword: event.userPassword,));
+                userMail: event.userMail!.text,
+                userPassword: event.userPassword!.text,));
           } on FirebaseAuthException catch (e) {
             debugPrint(e.toString());
-             emit(UserError(e:e.message));
+             emit(
+              const UserError()
+            );
           }
-        }
       },
     );
 
@@ -62,7 +60,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         } on FirebaseAuthException catch (e) {
           debugPrint(e.toString());
           emit(
-            UserError(e: e.message),
+            const UserError(),
           );
         }
       },

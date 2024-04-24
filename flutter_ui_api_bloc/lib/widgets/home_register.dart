@@ -1,8 +1,5 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ui_api_bloc/app_router.dart';
 import 'package:flutter_ui_api_bloc/blocs/users_bloc/users_bloc.dart';
 import 'package:flutter_ui_api_bloc/widgets/customize_elevated_button.dart';
 import 'helper_funtions.dart';
@@ -22,30 +19,6 @@ class HomeRegister extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void registerUser() async {
-      showDialog(
-        context: context,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-
-      if (passwordController.text != confirmPwController.text) {
-        context.router.maybePop();
-        displayMessageToUser("Password don't match!", context);
-      } else {
-        try {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailController.text,
-            password: passwordController.text,
-          );
-          context.router.push(const FireBaseRoute());
-        } on FirebaseAuthException catch (e) {
-          
-          displayMessageToUser(e.code, context);
-        }
-      }
-    }
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -94,7 +67,15 @@ class HomeRegister extends StatelessWidget {
         ),
         CustomizeElevatedButton(
           onTap: () {
-            context.read().add(UserSignIn(userMail: usernameController, userPassword: passwordController, confirmUserPassword: confirmPwController));
+            if (passwordController.text == confirmPwController.text) {
+              context.read<UsersBloc>().add(UserSignUp(
+                userMail: emailController,
+                userPassword: passwordController,),);
+            } else {
+              displayMessageToUser("Password don't match!", context);
+              passwordController.clear();
+              confirmPwController.clear();
+            }
           },
           buttonText: "Register",
           buttonActiveColor: const Color(
@@ -102,15 +83,15 @@ class HomeRegister extends StatelessWidget {
           ),
         ),
         SizedBox(
-              height: height * 0.015,
-            ),
+          height: height * 0.015,
+        ),
         CustomizeNotificationText(
-            greyText: "Do have an account?",
-            bluText: "Sign in",
-            onTap: () {
-              DefaultTabController.of(context).animateTo(0);
-            },
-          ),
+          greyText: "Do have an account?",
+          bluText: "Sign in",
+          onTap: () {
+            DefaultTabController.of(context).animateTo(0);
+          },
+        ),
       ]),
     );
   }

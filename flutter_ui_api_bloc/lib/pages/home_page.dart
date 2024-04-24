@@ -177,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: CircularProgressIndicator(),
             ),
           );
-          } else if (state is UserError) {
+          } /* else if (state is UserError) {
             return  Scaffold(
             body: Center(
               child: Column(
@@ -190,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           );
-          } else {
+          }  */else {
             return  Scaffold(
             body: Center(
               child: Column(

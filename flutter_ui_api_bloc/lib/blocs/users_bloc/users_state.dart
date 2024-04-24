@@ -25,8 +25,8 @@ class UserLoading extends UsersState {
 
 class UserSignedIn extends UsersState {
 
-  final TextEditingController? userMail;
-  final TextEditingController? userPassword;
+  final String? userMail;
+  final String? userPassword;
 
   const UserSignedIn(
       {this.userMail, required this.userPassword});
@@ -48,8 +48,7 @@ class UserLogedIn extends UsersState {
 }
 
 final class UserError extends UsersState {
-  final String? e;
-  const UserError({this.e});
+  const UserError();
 
   @override
   List<Object?> get props => [];

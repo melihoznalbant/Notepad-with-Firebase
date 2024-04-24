@@ -3,8 +3,8 @@ part of 'users_bloc.dart';
 sealed class UsersEvent extends Equatable {
   final TextEditingController? userMail;
   final TextEditingController? userPassword;
-  final TextEditingController? confirmUserPassword;
-  const UsersEvent({this.userMail, this.userPassword, this.confirmUserPassword});
+  
+  const UsersEvent({this.userMail, this.userPassword});
 
   @override
   List<Object?> get props => [userMail, userPassword];
@@ -12,32 +12,32 @@ sealed class UsersEvent extends Equatable {
 
 final class UserInitial extends UsersEvent {
   
-  const UserInitial({super.userMail, super.userPassword, super.confirmUserPassword});
-
-  @override
-  List<Object?> get props => [userMail, userPassword, confirmUserPassword];
-}
-
-class UserLogin extends UserSignIn {
-  
-  const UserLogin({super.userMail, super.userPassword, super.confirmUserPassword});
-
-  @override
-  List<Object?> get props => [userMail, userPassword, confirmUserPassword];
-}
-
-final class UserLogout extends UsersEvent {
-
-  const UserLogout({super.userMail, super.userPassword, super.confirmUserPassword});
+  const UserInitial({super.userMail, super.userPassword});
 
   @override
   List<Object?> get props => [userMail, userPassword];
 }
 
-class UserSignIn extends UsersEvent {
-
-  const UserSignIn ({super.userMail, super.userPassword, super.confirmUserPassword});
+class UserLogin extends UsersEvent {
+  
+  const UserLogin({super.userMail, super.userPassword});
 
   @override
-  List<Object?> get props => [userMail, userPassword, confirmUserPassword];
+  List<Object?> get props => [userMail, userPassword];
+}
+
+final class UserLogout extends UsersEvent {
+
+  const UserLogout({super.userMail, super.userPassword});
+
+  @override
+  List<Object?> get props => [userMail, userPassword];
+}
+
+class UserSignUp extends UsersEvent {
+
+  const UserSignUp ({super.userMail, super.userPassword});
+
+  @override
+  List<Object?> get props => [userMail, userPassword];
 }

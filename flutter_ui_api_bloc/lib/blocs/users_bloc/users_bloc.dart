@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,37 +11,45 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
   UsersBloc() : super(const UsersInitial()) {
     on<UserSignUp>(
       (event, emit) async {
-        emit(const UserLoading());
-
-          try {
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: event.userMail!.text,
-              password: event.userPassword!.text,
-            );
-            emit(UserSignedIn(
-                userMail: event.userMail!.text,
-                userPassword: event.userPassword!.text,));
-          } on FirebaseAuthException catch (e) {
-            debugPrint(e.toString());
-             emit(
-              const UserError()
-            );
-          }
+        emit(
+          const UserLoading(),
+        );
+        try {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: event.userMail!.text.trim(),
+            password: event.userPassword!.text.trim(),
+          );
+          emit(UserSignedIn(
+            userMail: event.userMail!.text.trim(),
+            userPassword: event.userPassword!.text.trim(),
+          ));
+        } on FirebaseAuthException catch (e) {
+          debugPrint(
+            e.toString(),
+          );
+          emit(
+            const UserError(),
+          );
+        }
       },
     );
 
     on<UserLogin>(
       (event, emit) async {
-        emit(const UserLoading());
-
+        emit(
+          const UserLoading(),
+        );
         try {
           await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: event.userMail!.text,
-            password: event.userPassword!.text,
+            email: event.userMail!.text.trim(),
+            password: event.userPassword!.text.trim(),
           );
-          emit(UserLogedIn(
-              userMail: event.userMail!.text,
-              userPassword: event.userPassword!.text));
+          emit(
+            UserLogedIn(
+              userMail: event.userMail!.text.trim(),
+              userPassword: event.userPassword!.text.trim(),
+            ),
+          );
         } on FirebaseAuthException catch (e) {
           debugPrint(e.toString());
           emit(
@@ -52,13 +61,18 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
     on<UserLogout>(
       (event, emit) async {
-        emit(const UserLoading());
-
+        emit(
+          const UserLoading(),
+        );
         try {
           await FirebaseAuth.instance.signOut();
-          emit(const UsersInitial());
+          emit(
+            const UsersInitial(),
+          );
         } on FirebaseAuthException catch (e) {
-          debugPrint(e.toString());
+          debugPrint(
+            e.toString(),
+          );
           emit(
             const UserError(),
           );
@@ -68,7 +82,35 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
     on<UserInitial>(
       (event, emit) async {
-        emit(const UsersInitial());
+        emit(
+          const UsersInitial(),
+        );
+      },
+    );
+
+    on<UserResetPw>(
+      (event, emit) async {
+        try {
+          await FirebaseAuth.instance.sendPasswordResetEmail(
+            email: event.userMail!.text,
+          );
+          emit(const UserResetPwState());
+        } catch (e) {
+          emit(
+            const UserError(),
+          );
+          emit(
+          const UsersInitial(),
+        );
+        }
+      },
+    );
+
+    on<UserButtonClick>(
+      (event, emit) async {
+          if (EmailValidator.validate(event.userMail!.text)) {
+        emit(const UserButtonClickState());
+      }
       },
     );
   }

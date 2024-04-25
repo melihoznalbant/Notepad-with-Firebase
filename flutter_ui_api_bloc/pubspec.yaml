@@ -46,6 +46,7 @@ dependencies:
   equatable: ^2.0.5
   mockito: ^5.4.4
   test: ^1.24.9
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

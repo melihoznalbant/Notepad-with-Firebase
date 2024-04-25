@@ -6,7 +6,9 @@ class CustomTextField extends StatefulWidget {
   final bool showLabelText;
   final String title;
   final TextEditingController? textController;
-  const CustomTextField({super.key, required this.labelText, this.showLabelText=false, required this.title, this.textController});
+  final TextInputType textInputType;
+   final Function(String)? onChanged;
+  const CustomTextField({super.key, required this.labelText, this.showLabelText=false, required this.title, this.textController, this.textInputType = TextInputType.text, this.onChanged});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -28,6 +30,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
             SizedBox(height: height*0.003,),
             TextField(
+              onChanged: widget.onChanged,
+              keyboardType: widget.textInputType,
               controller: widget.textController ?? TextEditingController(),
               obscureText: widget.showLabelText,
               decoration: InputDecoration(

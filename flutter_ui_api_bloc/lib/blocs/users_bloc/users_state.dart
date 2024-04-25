@@ -53,3 +53,31 @@ final class UserError extends UsersState {
   @override
   List<Object?> get props => [];
 }
+
+class UserResetPwState extends UsersState {
+
+  final String? userMail;
+  final String? userPassword;
+
+  const UserResetPwState(
+      {this.userMail, this.userPassword});
+
+  @override
+  List<Object?> get props => [userMail, userPassword];
+}
+
+class UserButtonClickState extends UsersState {
+
+  const UserButtonClickState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class UserButtonUnClickState extends UsersState {
+
+  const UserButtonUnClickState();
+
+  @override
+  List<Object?> get props => [];
+}

@@ -11,16 +11,12 @@ import 'customize_notification_text.dart';
 import 'separator.dart';
 import 'wrong_forgot_password.dart';
 
-class HomeLogin extends StatefulWidget {
-  const HomeLogin({super.key});
+class HomeLogin extends StatelessWidget {
+  HomeLogin({super.key});
 
-  @override
-  State<HomeLogin> createState() => _HomeLoginState();
-}
 
-class _HomeLoginState extends State<HomeLogin> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

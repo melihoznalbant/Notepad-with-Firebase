@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 body: TabBarView(
-                  children: [const HomeLogin(), HomeRegister()],
+                  children: [HomeLogin(), HomeRegister()],
                 ),
               ),
             ),

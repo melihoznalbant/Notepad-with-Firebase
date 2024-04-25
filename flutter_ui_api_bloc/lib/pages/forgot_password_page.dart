@@ -1,15 +1,25 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ui_api_bloc/blocs/users_bloc/users_bloc.dart';
 import '../app_router.dart';
 import '../widgets/back_button.dart';
 import '../widgets/custom_description_link.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/custom_title.dart';
 import '../widgets/customize_elevated_button.dart';
+import '../widgets/helper_funtions.dart';
 
 @RoutePage()
-class ForgotPasswordPage extends StatelessWidget {
+class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
+
+  @override
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+}
+
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +36,12 @@ class ForgotPasswordPage extends StatelessWidget {
               SizedBox(
                 height: height * 0.015,
               ),
-              const BackButtonWidget(),
+              BackButtonWidget(
+                onTap: () {
+                  context.read<UsersBloc>().add(const UserInitial());
+                  context.router.maybePop();
+                },
+              ),
               SizedBox(
                 height: height * 0.03,
               ),
@@ -40,21 +55,54 @@ class ForgotPasswordPage extends StatelessWidget {
               SizedBox(
                 height: height * 0.03,
               ),
-              const CustomTextField(
-                  labelText: "Enter your email", title: "Your Email"),
+              CustomTextField(
+                labelText: "Enter your email",
+                title: "Your Email",
+                textController: emailController,
+                textInputType: TextInputType.emailAddress,
+                onChanged: (text) {
+                  context
+                      .read<UsersBloc>()
+                      .add(UserButtonClick(userMail: emailController));
+                },
+              ),
               SizedBox(
                 height: height * 0.02,
               ),
-              CustomizeElevatedButton(
-                buttonText: "Reset Password",
-                buttonActiveColor: const Color(
-                  0xFF648DDB,
-                ).withOpacity(
-                  0.4,
-                ),
-                onTap: () => context.router.push(
-                  const EmailCode2Route(),
-                ),
+              BlocConsumer<UsersBloc, UsersState>(
+                listener: (context, state) {
+                  if (state is UserResetPw) {
+                    context.router.push(
+                      const EmailCode2Route(),
+                    );
+                  } else {
+                    displayMessageToUser("Error", context);
+                    emailController.clear();
+                  }
+                },
+                builder: (context, state) {
+                  return CustomizeElevatedButton(
+                    splashFactory: state is UserButtonClickState
+                        ? InkRipple.splashFactory
+                        : NoSplash.splashFactory,
+                    buttonText: "Reset Password",
+                    buttonActiveColor: state is UserButtonClickState
+                        ? const Color(
+                            0xFF648DDB,
+                          )
+                        : const Color(
+                            0xFF648DDB,
+                          ).withOpacity(
+                            0.4,
+                          ),
+                    onTap: state is UserButtonClickState
+                        ? () {
+                            emailController.clear();
+                            context.read<UsersBloc>().add(const UserResetPw());
+                          }
+                        : () {},
+                  );
+                },
               ),
             ],
           ),

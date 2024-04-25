@@ -5,7 +5,8 @@ class CustomizeElevatedButton extends StatelessWidget {
   final VoidCallback onTap;
   final String buttonText;
   final Color buttonActiveColor;
-  const CustomizeElevatedButton({super.key, required this.buttonText, required this.buttonActiveColor, this.onTap = defaultFunction,});
+  final InteractiveInkFeatureFactory? splashFactory;
+  const CustomizeElevatedButton({super.key, required this.buttonText, required this.buttonActiveColor, this.onTap = defaultFunction, this.splashFactory});
 
   static void defaultFunction() {}
 
@@ -16,6 +17,7 @@ class CustomizeElevatedButton extends StatelessWidget {
     return ElevatedButton(
             onPressed: onTap,
             style: ButtonStyle(
+              splashFactory: splashFactory,
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(

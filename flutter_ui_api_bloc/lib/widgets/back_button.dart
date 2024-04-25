@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BackButtonWidget extends StatelessWidget {
-  const BackButtonWidget({super.key});
+  final VoidCallback? onTap;
+  const BackButtonWidget({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +12,6 @@ class BackButtonWidget extends StatelessWidget {
                   color: Color(0xffececec),
                   shape: BoxShape.circle,
                   
-                ),child: const BackButton(style: ButtonStyle(),),);
+                ),child: BackButton(style: const ButtonStyle(), onPressed: onTap,),);
   }
 }

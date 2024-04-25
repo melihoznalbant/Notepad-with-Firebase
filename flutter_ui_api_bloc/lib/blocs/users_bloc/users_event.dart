@@ -3,7 +3,7 @@ part of 'users_bloc.dart';
 sealed class UsersEvent extends Equatable {
   final TextEditingController? userMail;
   final TextEditingController? userPassword;
-  
+
   const UsersEvent({this.userMail, this.userPassword});
 
   @override
@@ -41,3 +41,21 @@ class UserSignUp extends UsersEvent {
   @override
   List<Object?> get props => [userMail, userPassword];
 }
+
+class UserResetPw extends UsersEvent {
+
+  const UserResetPw ({super.userMail, super.userPassword});
+
+  @override
+  List<Object?> get props => [userMail, userPassword];
+}
+
+class UserButtonClick extends UsersEvent {
+
+  const UserButtonClick ({super.userMail, super.userPassword});
+
+  @override
+  List<Object?> get props => [userMail, userPassword];
+}
+
+

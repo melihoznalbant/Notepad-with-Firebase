@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ui_api_bloc/fonts.dart';
 
 class CustomizeElevatedLoginButtonImage extends StatelessWidget {
+  final VoidCallback onTap;
   final String buttonText;
   final String imageUrl;
-  const CustomizeElevatedLoginButtonImage({super.key, required this.buttonText, required this.imageUrl});
+  const CustomizeElevatedLoginButtonImage({super.key, required this.buttonText, required this.imageUrl,  this.onTap = defaultFunction});
+
+  static void defaultFunction() {}
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return ElevatedButton(
-            onPressed: () {},
+            onPressed: onTap,
             style: ButtonStyle(
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(

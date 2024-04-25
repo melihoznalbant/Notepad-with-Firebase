@@ -58,4 +58,12 @@ class UserButtonClick extends UsersEvent {
   List<Object?> get props => [userMail, userPassword];
 }
 
+class UserGoogleLogin extends UsersEvent {
+
+  const UserGoogleLogin ({super.userMail, super.userPassword});
+
+  @override
+  List<Object?> get props => [userMail, userPassword];
+}
+
 

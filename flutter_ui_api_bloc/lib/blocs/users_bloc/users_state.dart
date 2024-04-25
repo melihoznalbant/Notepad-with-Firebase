@@ -9,10 +9,12 @@ sealed class UsersState extends Equatable {
 }
 
 final class UsersInitial extends UsersState {
-  const UsersInitial();
+  final String? userMail;
+  final String? userPassword;
+  const UsersInitial({this.userMail, this.userPassword});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [userMail, userPassword];
 }
 
 class UserLoading extends UsersState {
@@ -36,7 +38,6 @@ class UserSignedIn extends UsersState {
 }
 
 class UserLogedIn extends UsersState {
-
   final String? userMail;
   final String? userPassword;
 
@@ -81,3 +82,14 @@ class UserButtonUnClickState extends UsersState {
   @override
   List<Object?> get props => [];
 }
+
+class UserLogedInGoogle extends UsersState {
+  final User? user;
+
+  const UserLogedInGoogle(
+      {this.user});
+
+  @override
+  List<Object?> get props => [user];
+}
+

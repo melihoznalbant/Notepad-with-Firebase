@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_api_bloc/blocs/users_bloc/users_bloc.dart';
@@ -61,9 +62,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 textController: emailController,
                 textInputType: TextInputType.emailAddress,
                 onChanged: (text) {
-                  context
+                  if (EmailValidator.validate(emailController.text)){context
                       .read<UsersBloc>()
-                      .add(UserButtonClick(userMail: emailController));
+                      .add(UserButtonClick(userMail: emailController));} else {context.read<UsersBloc>().add(const UserInitial());}
                 },
               ),
               SizedBox(
@@ -75,7 +76,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     context.router.push(
                       const EmailCode2Route(),
                     );
-                  } else {
+                  } else if (state is UserError) {
                     displayMessageToUser("Error", context);
                     emailController.clear();
                   }
@@ -95,12 +96,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ).withOpacity(
                             0.4,
                           ),
-                    onTap: state is UserButtonClickState
-                        ? () {
-                            emailController.clear();
-                            context.read<UsersBloc>().add(const UserResetPw());
+                    onTap: () {
+                            if(state is UserButtonClickState){
+                              context.read<UsersBloc>().add(const UserResetPw());
+                              emailController.clear();}
                           }
-                        : () {},
                   );
                 },
               ),

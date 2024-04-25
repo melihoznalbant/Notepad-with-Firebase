@@ -1,8 +1,8 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 part 'users_event.dart';
 part 'users_state.dart';
@@ -67,7 +67,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         try {
           await FirebaseAuth.instance.signOut();
           emit(
-            const UsersInitial(),
+            const UsersInitial(userMail: null, userPassword: null),
           );
         } on FirebaseAuthException catch (e) {
           debugPrint(
@@ -94,24 +94,60 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           await FirebaseAuth.instance.sendPasswordResetEmail(
             email: event.userMail!.text,
           );
-          emit(const UserResetPwState());
+          emit(UserResetPwState(userMail: event.userMail!.text));
         } catch (e) {
+          debugPrint('Password reset error: $e');
           emit(
             const UserError(),
           );
-          emit(
-          const UsersInitial(),
-        );
         }
       },
     );
 
     on<UserButtonClick>(
       (event, emit) async {
-          if (EmailValidator.validate(event.userMail!.text)) {
         emit(const UserButtonClickState());
-      }
+      },
+    );
+
+    on<UserGoogleLogin>(
+      (event, emit) async {
+        emit(const UserLoading(),);
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+          final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+          final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+        try {
+          final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+  emit(UserLogedInGoogle(user: userCredential.user));
+        } catch (e) {
+          debugPrint("Error: $e");
+          emit(const UserError());
+        }
       },
     );
   }
+}
+
+
+
+Future<UserCredential> signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithCredential(credential);
 }

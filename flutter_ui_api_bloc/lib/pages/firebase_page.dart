@@ -71,72 +71,72 @@ class _FireBasePageState extends State<FireBasePage> {
     return BlocListener<UsersBloc, UsersState>(
       listener: (context, state) {
         if (state is UsersInitial) {
-          context.router.push(const MyHomeRoute());
+          context.router.replace(const MyHomeRoute());
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              onPressed: () {
-                context.read<UsersBloc>().add(const UserLogout());
-                
-              },
-              icon: const Icon(
-                Icons.logout,
+      child: PopScope(
+        onPopInvoked:(didPop) => context.read<UsersBloc>().add(const UserLogout()),
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                onPressed: () => context.read<UsersBloc>().add(const UserLogout()),
+                icon: const Icon(
+                  Icons.logout,
+                ),
               ),
+            ],
+            title: Text(
+              "Notes",
+              style: CustomizeFonts.tittleBlack,
             ),
-          ],
-          title: Text(
-            "Notes",
-            style: CustomizeFonts.tittleBlack,
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: openNoteBox,
-          child: const Icon(Icons.add),
-        ),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: firestoreService.getNotesStream(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List noteList = snapshot.data!.docs;
-
-              return ListView.builder(
-                itemCount: noteList.length,
-                itemBuilder: (context, index) {
-                  DocumentSnapshot document = noteList[index];
-                  String docID = document.id;
-
-                  Map<String, dynamic> data =
-                      document.data() as Map<String, dynamic>;
-                  String noteText = data["note"];
-
-                  return ListTile(
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () => openNoteBox(docID: docID),
-                          icon: const Icon(Icons.settings),
-                        ),
-                        IconButton(
-                          onPressed: () => firestoreService.deleteNote(docID),
-                          icon: const Icon(Icons.delete),
-                        ),
-                      ],
-                    ),
-                    title: Text(
-                      noteText,
-                    ),
-                  );
-                },
-              );
-            } else {
-              return const Text("No Notes...");
-            }
-          },
+          floatingActionButton: FloatingActionButton(
+            onPressed: openNoteBox,
+            child: const Icon(Icons.add),
+          ),
+          body: StreamBuilder<QuerySnapshot>(
+            stream: firestoreService.getNotesStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List noteList = snapshot.data!.docs;
+        
+                return ListView.builder(
+                  itemCount: noteList.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot document = noteList[index];
+                    String docID = document.id;
+        
+                    Map<String, dynamic> data =
+                        document.data() as Map<String, dynamic>;
+                    String noteText = data["note"];
+        
+                    return ListTile(
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () => openNoteBox(docID: docID),
+                            icon: const Icon(Icons.settings),
+                          ),
+                          IconButton(
+                            onPressed: () => firestoreService.deleteNote(docID),
+                            icon: const Icon(Icons.delete),
+                          ),
+                        ],
+                      ),
+                      title: Text(
+                        noteText,
+                      ),
+                    );
+                  },
+                );
+              } else {
+                return const Text("No Notes...");
+              }
+            },
+          ),
         ),
       ),
     );

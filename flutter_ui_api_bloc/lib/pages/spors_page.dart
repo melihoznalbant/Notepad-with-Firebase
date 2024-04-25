@@ -9,7 +9,7 @@ class SporsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _sporsBloc = BlocProvider.of<SporsBloc>(context);
+    final sporsBloc = BlocProvider.of<SporsBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("League"),
@@ -20,11 +20,11 @@ class SporsPage extends StatelessWidget {
             children: [
               ElevatedButton(
                   onPressed: () =>
-                      _sporsBloc.add(const FetchSporsEvent(league: "super-lig")),
+                      sporsBloc.add(const FetchSporsEvent(league: "super-lig")),
                   child: const Text("Team List")),
                   ElevatedButton(
                   onPressed: () =>
-                      _sporsBloc.add(SporsIniEvent()),
+                      sporsBloc.add(SporsIniEvent()),
                   child: const Text("Clear Page")),
             ],
           ),

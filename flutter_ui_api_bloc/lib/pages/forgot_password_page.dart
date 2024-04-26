@@ -64,7 +64,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 onChanged: (text) {
                   if (EmailValidator.validate(emailController.text)){context
                       .read<UsersBloc>()
-                      .add(UserButtonClick(userMail: emailController));} else {context.read<UsersBloc>().add(const UserInitial());}
+                      .add(UserButtonClick(userMail: emailController));
+                      context.read<UsersBloc>().add(UserResetPw(userMail: emailController));} else {context.read<UsersBloc>().add(const UserInitial());
+                      }
                 },
               ),
               SizedBox(

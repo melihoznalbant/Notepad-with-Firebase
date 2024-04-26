@@ -112,18 +112,21 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
     on<UserGoogleLogin>(
       (event, emit) async {
-        emit(const UserLoading(),);
+        
+        emit(
+          const UserLoading(),
+        );
         final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-          final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-          final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser!.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        final UserCredential userCredential =
+              await FirebaseAuth.instance.signInWithCredential(credential);
         try {
-          final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-
-  emit(UserLogedInGoogle(user: userCredential.user));
+          emit(UserLogedInGoogle(user: userCredential.user));
         } catch (e) {
           debugPrint("Error: $e");
           emit(const UserError());
@@ -131,23 +134,4 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       },
     );
   }
-}
-
-
-
-Future<UserCredential> signInWithGoogle() async {
-  // Trigger the authentication flow
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-  // Obtain the auth details from the request
-  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-  // Create a new credential
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
-
-  // Once signed in, return the UserCredential
-  return await FirebaseAuth.instance.signInWithCredential(credential);
 }

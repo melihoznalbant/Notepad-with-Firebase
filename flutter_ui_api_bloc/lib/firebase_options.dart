@@ -63,6 +63,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '795341688381',
     projectId: 'flutteruiblocapi',
     storageBucket: 'flutteruiblocapi.appspot.com',
+    androidClientId: '795341688381-m1gi5f6e0j3grd8oh85frp5doetuilgr.apps.googleusercontent.com',
+    iosClientId: '795341688381-ce3uoc5gaob1ol6gnds38ufe7gmp9ne5.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterUiApiBloc',
   );
+
 }

@@ -85,7 +85,10 @@ class HomeLogin extends StatelessWidget {
             height: height * 0.015,
           ),
           CustomizeElevatedLoginButtonImage(
-            onTap: () => context.read<UsersBloc>().add(const UserGoogleLogin()),
+            onTap: () {
+              debugPrint("butona tıklandı");
+              context.read<UsersBloc>().add(const UserGoogleLogin());
+            },
             buttonText: "Login with Google",
             imageUrl: "assets/google.png",
           ),

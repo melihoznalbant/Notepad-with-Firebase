@@ -37,7 +37,7 @@ class _EmailCodePageState extends State<EmailCode2Page> {
               BlocListener<UsersBloc, UsersState>(
                 listener: (context, state) {
                   if(state is UsersInitial){
-                    context.router.maybePop();
+                    context.router.popUntilRouteWithName(ForgotPasswordRoute.name);  
                   }
                 },
                 child: BackButtonWidget(

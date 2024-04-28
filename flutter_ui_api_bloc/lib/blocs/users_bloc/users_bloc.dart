@@ -80,16 +80,18 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       },
     );
 
-    on<UserInitial>(
+    on<UserInitialEvent>(
       (event, emit) async {
         emit(
           const UsersInitial(),
         );
+        debugPrint(state.toString());
       },
     );
 
     on<UserResetPw>(
       (event, emit) async {
+        emit(const UserLoading());
         try {
           await FirebaseAuth.instance.sendPasswordResetEmail(
             email: event.userMail!.text,

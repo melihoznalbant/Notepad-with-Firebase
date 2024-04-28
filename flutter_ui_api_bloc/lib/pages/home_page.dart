@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   const Text("Error"),
                   ElevatedButton(onPressed:() {
-                    context.read<UsersBloc>().add(const UserInitial());
+                    context.read<UsersBloc>().add(const UserInitialEvent());
                   }, child: const Text("Try Again"))
                 ],
               ),

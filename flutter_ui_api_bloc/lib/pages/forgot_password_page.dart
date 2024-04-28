@@ -16,7 +16,7 @@ import '../widgets/helper_funtions.dart';
 class ForgotPasswordPage extends HookWidget {
   const ForgotPasswordPage({super.key});
 
- // final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  // final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class ForgotPasswordPage extends HookWidget {
                 ),
                 BackButtonWidget(
                   onTap: () {
-                    context.read<UsersBloc>().add(const UserInitial());
+                    context.read<UsersBloc>().add(const UserInitialEvent());
                     context.router.maybePop();
                   },
                 ),
@@ -69,13 +69,21 @@ class ForgotPasswordPage extends HookWidget {
                 ),
                 BlocListener<UsersBloc, UsersState>(
                     listener: (context, state) {
-                      if (state is UserResetPw) {
+                      if (state is UserResetPwState) {
                         context.router.push(
                           const EmailCode2Route(),
                         );
+                        emailController.clear();
                       } else if (state is UserError) {
                         displayMessageToUser("Error", context);
                         emailController.clear();
+                      } else if (state is UserLoading) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const AlertDialog(
+                            title: Center(child: CircularProgressIndicator()),
+                          ),
+                        );
                       }
                     },
                     child: CustomizeElevatedButton(
@@ -90,8 +98,13 @@ class ForgotPasswordPage extends HookWidget {
                                   ).withOpacity(
                                     0.4,
                                   ),
-                        onTap: () {
-                        })),
+                        onTap: !customTextFieldValidator(emailController.text)
+                            ? null
+                            : () {
+                                context.read<UsersBloc>().add(
+                                    UserResetPw(userMail: emailController));
+                                //context.router.push(const EmailCode2Route());
+                              })),
               ],
             ),
           ),
@@ -100,11 +113,11 @@ class ForgotPasswordPage extends HookWidget {
     );
   }
 
-   bool customTextFieldValidator(String textFieldValue) {
+  bool customTextFieldValidator(String textFieldValue) {
     if (EmailValidator.validate(textFieldValue)) {
       return true;
     } else {
       return false;
     }
-  } 
+  }
 }

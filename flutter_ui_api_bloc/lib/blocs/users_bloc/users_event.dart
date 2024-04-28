@@ -10,9 +10,9 @@ sealed class UsersEvent extends Equatable {
   List<Object?> get props => [userMail, userPassword];
 }
 
-final class UserInitial extends UsersEvent {
+final class UserInitialEvent extends UsersEvent {
   
-  const UserInitial({super.userMail, super.userPassword});
+  const UserInitialEvent({super.userMail, super.userPassword});
 
   @override
   List<Object?> get props => [userMail, userPassword];

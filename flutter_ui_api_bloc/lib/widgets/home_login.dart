@@ -11,6 +11,7 @@ import 'customize_notification_text.dart';
 import 'separator.dart';
 import 'wrong_forgot_password.dart';
 
+
 class HomeLogin extends StatelessWidget {
   HomeLogin({super.key});
 
@@ -51,7 +52,7 @@ class HomeLogin extends StatelessWidget {
           ),
           ForgotWrongPassword(
             onTap: () {
-              context.router.push(const ForgotPasswordRoute());
+              context.router.push(const ForgotPasswordRoute()/* const ForgotPasswordRoute() */);
             },
           ),
           SizedBox(

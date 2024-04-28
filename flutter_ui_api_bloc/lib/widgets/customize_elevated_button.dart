@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ui_api_bloc/fonts.dart';
 
 class CustomizeElevatedButton extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String buttonText;
   final Color buttonActiveColor;
-  final InteractiveInkFeatureFactory? splashFactory;
-  const CustomizeElevatedButton({super.key, required this.buttonText, required this.buttonActiveColor, this.onTap = defaultFunction, this.splashFactory});
+  // ignore: avoid_init_to_null
+  const CustomizeElevatedButton({super.key, required this.buttonText, required this.buttonActiveColor, this.onTap = null,});
 
-  static void defaultFunction() {}
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,6 @@ class CustomizeElevatedButton extends StatelessWidget {
     return ElevatedButton(
             onPressed: onTap,
             style: ButtonStyle(
-              splashFactory: splashFactory,
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(

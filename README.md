@@ -1,6 +1,7 @@
 # Notepad with Firebase
-![Simulator Screenshot - iPhone 15 Pro Max - 2024-04-29 at 16 44 44](https://github.com/melihoznalbant/Notepad-with-Firebase/assets/113714236/885965ef-da92-41e1-a1d9-5bcb66146765)
-![Simulator Screenshot - iPhone 15 Pro Max - 2024-04-29 at 16 47 24](https://github.com/melihoznalbant/Notepad-with-Firebase/assets/113714236/c1a8c58f-8f05-4c43-8e3c-f6ae37040610)
+![image](https://github.com/melihoznalbant/Notepad-with-Firebase/assets/113714236/a57d2c91-1486-47f1-9399-375b50fb0dfe)
+![image](https://github.com/melihoznalbant/Notepad-with-Firebase/assets/113714236/8c4ddf3b-83f2-41e2-b945-e450c6338058)
+
 
 ## Features
 - Firebase authentication

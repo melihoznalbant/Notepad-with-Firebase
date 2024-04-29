@@ -49,6 +49,8 @@ dependencies:
   email_validator: ^2.1.17
   google_sign_in: ^6.2.1
   flutter_hooks: ^0.20.5
+  crypto: ^3.0.3
+  sign_in_with_apple: ^6.1.0
 
 dev_dependencies:
   flutter_test:

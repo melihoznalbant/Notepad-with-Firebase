@@ -6,8 +6,6 @@ import 'package:flutter_ui_api_bloc/app/features/authentications/presentation/bl
 import 'package:flutter_ui_api_bloc/firebase_options.dart';
 import 'package:flutter_ui_api_bloc/di/locator.dart';
 
-import 'app/features/authentications/presentation/bloc/spors_bloc/spors_bloc.dart';
-
 Future<void> main() async {
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,13 +21,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [BlocProvider<UsersBloc>(
-          create: (context) => UsersBloc(),
-        ),
-        BlocProvider<SporsBloc>(
-          create: (context) => SporsBloc(),
-        ),],
+    return BlocProvider(
+      create: (context) => UsersBloc(),
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: autoRouter.config(),

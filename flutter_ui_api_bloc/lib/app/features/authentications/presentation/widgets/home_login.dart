@@ -53,7 +53,7 @@ class HomeLogin extends StatelessWidget {
           ),
           ForgotWrongPassword(
             onTap: () {
-              context.router.push(const ForgotPasswordRoute()/* const ForgotPasswordRoute() */);
+              context.router.push(const ForgotPasswordRoute());
             },
           ),
           SizedBox(
@@ -78,7 +78,7 @@ class HomeLogin extends StatelessWidget {
             height: height * 0.025,
           ),
           CustomizeElevatedLoginButtonIcon(
-            onTap: () => context.router.push(const SporsRoute()),
+            onTap: () => context.read<UsersBloc>().add(const UserAppleogin()),
             buttonText: "Login with Apple",
             icon: Icons.apple,
             iconColor: Colors.black,
@@ -88,7 +88,6 @@ class HomeLogin extends StatelessWidget {
           ),
           CustomizeElevatedLoginButtonImage(
             onTap: () {
-              debugPrint("butona tıklandı");
               context.read<UsersBloc>().add(const UserGoogleLogin());
             },
             buttonText: "Login with Google",

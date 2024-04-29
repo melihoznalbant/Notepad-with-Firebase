@@ -93,3 +93,13 @@ class UserLogedInGoogle extends UsersState {
   List<Object?> get props => [user];
 }
 
+class UserLogedInApple extends UsersState {
+  final User? user;
+
+  const UserLogedInApple(
+      {this.user});
+
+  @override
+  List<Object?> get props => [user];
+}
+

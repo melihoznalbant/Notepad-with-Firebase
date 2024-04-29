@@ -66,4 +66,12 @@ class UserGoogleLogin extends UsersEvent {
   List<Object?> get props => [userMail, userPassword];
 }
 
+class UserAppleogin extends UsersEvent {
+
+  const UserAppleogin ({super.userMail, super.userPassword});
+
+  @override
+  List<Object?> get props => [userMail, userPassword];
+}
+
 

@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
       child: BlocConsumer<UsersBloc, UsersState>(
         listener: (context, state) {
-          if (state is UserLogedIn || state is UserSignedIn || state is UserLogedInGoogle) {
+          if (state is UserLogedIn || state is UserSignedIn || state is UserLogedInGoogle || state is UserLogedInApple) {
             context.router.replace(const FireBaseRoute());
           }
         },

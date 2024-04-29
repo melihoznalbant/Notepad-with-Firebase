@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_ui_api_bloc/widgets/custom_textfield.dart';
+import 'package:flutter_ui_api_bloc/app/features/authentications/presentation/widgets/custom_textfield.dart';
 
 void main() {
   group('CustomTextField Tests', () {

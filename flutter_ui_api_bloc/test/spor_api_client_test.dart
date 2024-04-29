@@ -1,5 +1,5 @@
-import 'package:flutter_ui_api_bloc/data/spor_repository.dart';
-import 'package:flutter_ui_api_bloc/models/spors.dart';
+import 'package:flutter_ui_api_bloc/app/features/authentications/domain/spor_repository.dart';
+import 'package:flutter_ui_api_bloc/app/features/authentications/domain/models/spors.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dio/dio.dart';

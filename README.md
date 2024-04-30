@@ -1,6 +1,7 @@
 # Notepad with Firebase
-<img src="![image](https://github.com/melihoznalbant/Notepad-with-Firebase/assets/113714236/a57d2c91-1486-47f1-9399-375b50fb0dfe)"width="300" height="300">
-<img src="![image](https://github.com/melihoznalbant/Notepad-with-Firebase/assets/113714236/8c4ddf3b-83f2-41e2-b945-e450c6338058)"width="300" height="300">
+<img src="
+<img src="https://github.com/melihoznalbant/Notepad-with-Firebase/assets/113714236/a57d2c91-1486-47f1-9399-375b50fb0dfe" width="300" height="500">
+<img src="https://github.com/melihoznalbant/Notepad-with-Firebase/assets/113714236/8c4ddf3b-83f2-41e2-b945-e450c6338058" width="300" height="500">
 
 
 ## Features

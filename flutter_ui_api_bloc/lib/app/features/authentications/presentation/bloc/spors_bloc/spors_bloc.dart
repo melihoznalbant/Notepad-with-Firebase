@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_api_bloc/app/features/authentications/domain/spor_repository.dart';
-import '../../../../../../di/locator.dart';
+import '../../../../../../../../../../../di/locator.dart';
 import '../../../domain/models/spors.dart';
 
 part 'spors_event.dart';

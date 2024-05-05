@@ -1,7 +1,6 @@
 part of 'users_bloc.dart';
 
 sealed class UsersState extends Equatable {
-  
   const UsersState();
 
   @override
@@ -10,15 +9,13 @@ sealed class UsersState extends Equatable {
 
 final class UsersInitial extends UsersState {
   final String? userMail;
-  final String? userPassword;
-  const UsersInitial({this.userMail, this.userPassword});
+  const UsersInitial({this.userMail});
 
   @override
-  List<Object?> get props => [userMail, userPassword];
+  List<Object?> get props => [userMail];
 }
 
 class UserLoading extends UsersState {
-  
   const UserLoading();
 
   @override
@@ -26,26 +23,21 @@ class UserLoading extends UsersState {
 }
 
 class UserSignedIn extends UsersState {
-
   final String? userMail;
-  final String? userPassword;
 
-  const UserSignedIn(
-      {this.userMail, required this.userPassword});
+  const UserSignedIn({this.userMail});
 
   @override
-  List<Object?> get props => [userMail, userPassword];
+  List<Object?> get props => [userMail];
 }
 
 class UserLogedIn extends UsersState {
   final String? userMail;
-  final String? userPassword;
 
-  const UserLogedIn(
-      {this.userMail, required this.userPassword});
+  const UserLogedIn({this.userMail});
 
   @override
-  List<Object?> get props => [userMail, userPassword];
+  List<Object?> get props => [userMail];
 }
 
 final class UserError extends UsersState {
@@ -56,19 +48,15 @@ final class UserError extends UsersState {
 }
 
 class UserResetPwState extends UsersState {
-
   final String? userMail;
-  final String? userPassword;
 
-  const UserResetPwState(
-      {this.userMail, this.userPassword});
+  const UserResetPwState({this.userMail});
 
   @override
-  List<Object?> get props => [userMail, userPassword];
+  List<Object?> get props => [userMail];
 }
 
 class UserButtonClickState extends UsersState {
-
   const UserButtonClickState();
 
   @override
@@ -76,7 +64,6 @@ class UserButtonClickState extends UsersState {
 }
 
 class UserButtonUnClickState extends UsersState {
-
   const UserButtonUnClickState();
 
   @override
@@ -86,8 +73,7 @@ class UserButtonUnClickState extends UsersState {
 class UserLogedInGoogle extends UsersState {
   final User? user;
 
-  const UserLogedInGoogle(
-      {this.user});
+  const UserLogedInGoogle({this.user});
 
   @override
   List<Object?> get props => [user];
@@ -96,10 +82,8 @@ class UserLogedInGoogle extends UsersState {
 class UserLogedInApple extends UsersState {
   final User? user;
 
-  const UserLogedInApple(
-      {this.user});
+  const UserLogedInApple({this.user});
 
   @override
   List<Object?> get props => [user];
 }
-

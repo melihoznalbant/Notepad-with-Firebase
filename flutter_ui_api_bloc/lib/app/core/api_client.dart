@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'models/spors.dart';
+import '../data/models/spors.dart';
 
 class SporsApiClient {
   Future<Spors> fetchSpors(String league) async {

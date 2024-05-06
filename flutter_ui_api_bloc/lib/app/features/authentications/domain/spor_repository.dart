@@ -1,5 +1,5 @@
-import 'models/spors.dart';
+import '../../../data/models/spors.dart';
 
 abstract class SporsRepository {
- Future<Spors> getSpors (String league);
+  Future<Spors> getSpors(String league);
 }

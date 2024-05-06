@@ -37,17 +37,19 @@ class _FireBasePageState extends State<FireBasePage> {
             docID: docID,
             onTap: () {
               try {
-                if (docID == null) {
-                  context
-                      .read<StreamBloc>()
-                      .add(AddNotesEvent(note: textController.text));
-                } else {
-                  context.read<StreamBloc>().add(
-                      UpdateNotesEvent(id: docID, note: textController.text));
-                }
+                if (textController.text.isNotEmpty) {
+                  if (docID == null) {
+                    context
+                        .read<StreamBloc>()
+                        .add(AddNotesEvent(note: textController.text));
+                  } else {
+                    context.read<StreamBloc>().add(
+                        UpdateNotesEvent(id: docID, note: textController.text));
+                  }
 
-                textController.clear();
-                context.router.maybePop();
+                  textController.clear();
+                  context.router.maybePop();
+                }
               } catch (e) {
                 debugPrint("Error adding note: $e");
               }
@@ -108,38 +110,43 @@ class _FireBasePageState extends State<FireBasePage> {
               if (state is NoteLoading) {
                 return const CircularProgressIndicator();
               } else if (state is NotesLoaded) {
-                return ListView.builder(
-                  itemCount: state.notes.length,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot document = state.notes[index];
-                    String docID = document.id;
+                if (state.notes.isNotEmpty) {
+                  return ListView.builder(
+                    itemCount: state.notes.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot document = state.notes[index];
+                      String docID = document.id;
 
-                    Map<String, dynamic> data =
-                        document.data() as Map<String, dynamic>;
-                    String noteText = data["note"];
+                      Map<String, dynamic> data =
+                          document.data() as Map<String, dynamic>;
+                      String noteText = data["note"];
 
-                    return ListTile(
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: () => openNoteBox(docID: docID),
-                            icon: const Icon(Icons.settings),
-                          ),
-                          IconButton(
-                            onPressed: () => firestoreService.deleteNote(docID),
-                            icon: const Icon(Icons.delete),
-                          ),
-                        ],
-                      ),
-                      title: Text(
-                        noteText,
-                      ),
-                    );
-                  },
-                );
+                      return ListTile(
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () => openNoteBox(docID: docID),
+                              icon: const Icon(Icons.settings),
+                            ),
+                            IconButton(
+                              onPressed: () =>
+                                  firestoreService.deleteNote(docID),
+                              icon: const Icon(Icons.delete),
+                            ),
+                          ],
+                        ),
+                        title: Text(
+                          noteText,
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return const Center(child: Text("No notes available"));
+                }
               } else {
-                return const Text("No notes available");
+                return const Center(child: Text("No notes available"));
               }
             },
           ),

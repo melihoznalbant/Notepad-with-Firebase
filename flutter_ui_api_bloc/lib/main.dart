@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ui_api_bloc/app/features/authentications/presentation/bloc/spors_bloc/spors_bloc.dart';
 import 'package:flutter_ui_api_bloc/app/router/app_router.dart';
 import 'package:flutter_ui_api_bloc/app/features/authentications/presentation/bloc/users_bloc/users_bloc.dart';
 import 'package:flutter_ui_api_bloc/firebase_options.dart';
 import 'package:flutter_ui_api_bloc/di/locator.dart';
-
 import 'app/features/authentications/presentation/bloc/stream_bloc/stream_bloc.dart';
 
 Future<void> main() async {
@@ -25,10 +25,13 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => UsersBloc(),
+          create: (context) => locator<UsersBloc>(),
         ),
         BlocProvider(
-          create: (context) => StreamBloc(),
+          create: (context) => locator<StreamBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => locator<SporsBloc>(),
         ),
       ],
       child: MaterialApp.router(

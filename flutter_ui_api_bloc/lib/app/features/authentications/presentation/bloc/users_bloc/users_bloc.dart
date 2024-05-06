@@ -7,19 +7,48 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 part 'users_event.dart';
 part 'users_state.dart';
 
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   UsersBloc() : super(const UsersInitial()) {
-    on<UserSignUp>(_onUserSignUp);
-    on<UserLogin>(_onUserLogin);
-    on<UserLogout>(_onUserLogout);
-    on<UserInitialEvent>(_onUserInitialEvent);
-    on<UserResetPw>(_onUserResetPw);
-    on<UserGoogleLogin>(_onUserGoogleLogin);
-    on<UserAppleogin>(_onUserAppleogin);
+    on<UserSignUp>(
+      _onUserSignUp,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
+    on<UserLogin>(
+      _onUserLogin,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
+    on<UserLogout>(
+      _onUserLogout,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
+    on<UserInitialEvent>(
+      _onUserInitialEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
+    on<UserResetPw>(
+      _onUserResetPw,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
+    on<UserGoogleLogin>(
+      _onUserGoogleLogin,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
+    on<UserAppleogin>(
+      _onUserAppleogin,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
   }
 
   Future<void> _onUserSignUp(UserSignUp event, Emitter<UsersState> emit) async {

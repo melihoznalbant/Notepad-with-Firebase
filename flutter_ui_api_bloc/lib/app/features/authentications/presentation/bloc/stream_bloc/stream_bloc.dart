@@ -2,9 +2,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:rxdart/rxdart.dart';
 import '../../../../../../services/firestore.dart';
-
 part 'stream_event.dart';
 part 'stream_state.dart';
 
@@ -13,26 +12,27 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
   StreamBloc() : super(NoteInitial()) {
     on<LoadNotesEvent>(_onLoadNotesEvent);
-    on<AddNotesEvent>(_onAddNotesEvent);
-    on<UpdateNotesEvent>(_onUpdateNotesEvent);
-    on<DeleteNotesEvent>(_onDeleteNotesEvent);
+    on<AddNotesEvent>(
+      _onAddNotesEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
+    on<UpdateNotesEvent>(
+      _onUpdateNotesEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
+    on<DeleteNotesEvent>(
+      _onDeleteNotesEvent,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(seconds: 1)).asyncExpand(mapper),
+    );
   }
 
-  Future<void> _onLoadNotesEvent(
-      StreamEvent event, Emitter<StreamState> emit) async {
-    /* emit(NoteLoading());
-    try {
-      final stream = firestoreService.getNotesStream();
-      await for (final snapshot in stream) {
-        emit(NotesLoaded(snapshot.docs));
-      }
-    } catch (e) {
-      emit(const NoteError("Failed to load notes"));
-    } */
+  Future _onLoadNotesEvent(StreamEvent event, Emitter<StreamState> emit) async {
     emit(NoteLoading());
     final stream = firestoreService.getNotesStream();
-
-    emit.onEach<QuerySnapshot>(
+    await emit.onEach<QuerySnapshot>(
       stream,
       onData: (snapshot) {
         emit(NotesLoaded(snapshot.docs));
@@ -43,31 +43,32 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     );
   }
 
-  FutureOr<void> _onAddNotesEvent(
-      AddNotesEvent event, Emitter<StreamState> emit) {
+  Future<void> _onAddNotesEvent(
+      AddNotesEvent event, Emitter<StreamState> emit) async {
     emit(NoteLoading());
     try {
-      firestoreService.addNote(event.note!);
+      await firestoreService.addNote(event.note!);
+      add(LoadNotesEvent());
     } catch (e) {
       emit(const NoteError("Failed to load notes"));
     }
   }
 
-  FutureOr<void> _onUpdateNotesEvent(
-      UpdateNotesEvent event, Emitter<StreamState> emit) {
-    emit(NoteLoading());
+  Future<void> _onUpdateNotesEvent(
+      UpdateNotesEvent event, Emitter<StreamState> emit) async {
     try {
-      firestoreService.updateNote(event.id!, event.note!);
+      await firestoreService.updateNote(event.id!, event.note!);
+      add(LoadNotesEvent());
     } catch (e) {
       emit(const NoteError("Failed to load notes"));
     }
   }
 
-  FutureOr<void> _onDeleteNotesEvent(
-      DeleteNotesEvent event, Emitter<StreamState> emit) {
-    emit(NoteLoading());
+  Future<void> _onDeleteNotesEvent(
+      DeleteNotesEvent event, Emitter<StreamState> emit) async {
     try {
-      firestoreService.deleteNote(event.id!);
+      await firestoreService.deleteNote(event.id!);
+      add(LoadNotesEvent());
     } catch (e) {
       emit(const NoteError("Failed to load notes"));
     }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_ui_api_bloc/app/features/authentications/domain/spor_repository.dart';
-import 'package:flutter_ui_api_bloc/app/features/authentications/domain/models/spors.dart';
+import 'package:flutter_ui_api_bloc/app/data/models/spors.dart';
 
 class SporsRepositoryImplMock implements SporsRepository {
   @override

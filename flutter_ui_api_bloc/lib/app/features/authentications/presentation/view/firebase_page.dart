@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ui_api_bloc/app/features/authentications/presentation/bloc/stream_bloc/stream_bloc.dart';
 import 'package:flutter_ui_api_bloc/app/features/authentications/presentation/widgets/showdialog_body.dart';
 import '../../../../router/app_router.dart';
 import '../widgets/custom_textfield.dart';
@@ -37,9 +38,12 @@ class _FireBasePageState extends State<FireBasePage> {
             onTap: () {
               try {
                 if (docID == null) {
-                  firestoreService.addNote(textController.text);
+                  context
+                      .read<StreamBloc>()
+                      .add(AddNotesEvent(note: textController.text));
                 } else {
-                  firestoreService.updateNote(docID, textController.text);
+                  context.read<StreamBloc>().add(
+                      UpdateNotesEvent(id: docID, note: textController.text));
                 }
 
                 textController.clear();
@@ -60,6 +64,19 @@ class _FireBasePageState extends State<FireBasePage> {
       listener: (context, state) {
         if (state is UsersInitial) {
           context.router.replace(const MyHomeRoute());
+        } else if (state is UserError) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Error'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => context.router.maybePop(),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
         }
       },
       child: PopScope(
@@ -86,16 +103,15 @@ class _FireBasePageState extends State<FireBasePage> {
             onPressed: openNoteBox,
             child: const Icon(Icons.add),
           ),
-          body: StreamBuilder<QuerySnapshot>(
-            stream: firestoreService.getNotesStream(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List noteList = snapshot.data!.docs;
-
+          body: BlocBuilder<StreamBloc, StreamState>(
+            builder: (context, state) {
+              if (state is NoteLoading) {
+                return const CircularProgressIndicator();
+              } else if (state is NotesLoaded) {
                 return ListView.builder(
-                  itemCount: noteList.length,
+                  itemCount: state.notes.length,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot document = noteList[index];
+                    DocumentSnapshot document = state.notes[index];
                     String docID = document.id;
 
                     Map<String, dynamic> data =
@@ -123,7 +139,7 @@ class _FireBasePageState extends State<FireBasePage> {
                   },
                 );
               } else {
-                return const Text("No Notes...");
+                return const Text("No notes available");
               }
             },
           ),

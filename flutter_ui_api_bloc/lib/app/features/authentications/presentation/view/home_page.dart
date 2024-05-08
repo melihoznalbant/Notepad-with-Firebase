@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_api_bloc/app/router/app_router.dart';
 import 'package:flutter_ui_api_bloc/app/features/authentications/presentation/bloc/users_bloc/users_bloc.dart';
-
-import '../bloc/stream_bloc/stream_bloc.dart';
 import '../widgets/home_login.dart';
 import '../widgets/home_register.dart';
 
@@ -39,7 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
               state is UserLogedInGoogle ||
               state is UserLogedInApple) {
             context.router.replace(const FireBaseRoute());
-            context.read().add(LoadNotesEvent());
           }
         },
         builder: (context, state) {

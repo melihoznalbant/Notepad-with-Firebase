@@ -18,7 +18,7 @@ final class NoteLoading extends StreamState {
 }
 
 class NotesLoaded extends StreamState {
-  final List notes;
+  final List<NoteModel> notes;
 
   const NotesLoaded(this.notes);
 

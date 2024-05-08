@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_api_bloc/app/features/authentications/presentation/bloc/stream_bloc/stream_bloc.dart';
@@ -22,6 +21,12 @@ class _FireBasePageState extends State<FireBasePage> {
   final FirestoreService firestoreService = FirestoreService();
 
   final TextEditingController textController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<StreamBloc>().add(LoadNotesEvent());
+  }
 
   void openNoteBox({String? docID}) {
     showDialog(
@@ -114,31 +119,23 @@ class _FireBasePageState extends State<FireBasePage> {
                   return ListView.builder(
                     itemCount: state.notes.length,
                     itemBuilder: (context, index) {
-                      DocumentSnapshot document = state.notes[index];
-                      String docID = document.id;
-
-                      Map<String, dynamic> data =
-                          document.data() as Map<String, dynamic>;
-                      String noteText = data["note"];
-
                       return ListTile(
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              onPressed: () => openNoteBox(docID: docID),
+                              onPressed: () =>
+                                  openNoteBox(docID: state.notes[index].docId),
                               icon: const Icon(Icons.settings),
                             ),
                             IconButton(
-                              onPressed: () =>
-                                  firestoreService.deleteNote(docID),
+                              onPressed: () => firestoreService
+                                  .deleteNote(state.notes[index].docId),
                               icon: const Icon(Icons.delete),
                             ),
                           ],
                         ),
-                        title: Text(
-                          noteText,
-                        ),
+                        title: Text(state.notes[index].note),
                       );
                     },
                   );
